@@ -21,3 +21,6 @@ void iterative_inorder(Node * tree_node);
 void iterative_postorder(Node * tree_node);
 
 void breadth_first_search(Node* tree_node);
+
+int size(Node* root);
+int height(Node* tree_node);

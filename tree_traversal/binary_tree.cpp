@@ -9,7 +9,7 @@ using namespace std;
 //         1         2
 //     3      4    5    6
 
-int main() {
+int main2() {
     Tree someTree;
     build_trivial_tree(someTree);
     cout << "Bread first search: " << endl;
@@ -173,3 +173,89 @@ void breadth_first_search(Node* tree_node) {
             q.push(visited_node->right);
     }
 }
+
+// number of nodes in tree rooted at root
+int size(Node* root) {
+    if (root == NULL) {return 0;}
+    return 1 + size(root->left) + size(root->right);
+}
+
+// the height of a tree node
+int height(Node* tree_node) {
+    if (tree_node == NULL) {return -1;}
+    return 1 + max(height(tree_node->left),
+                     height(tree_node->right));
+}
+
+// In some implementations of binary trees, 
+// the parent field is not used.
+// When this is the case,  a non-recursive implementation
+// is still possible,but the implementation has to use
+// aList(orStack) to keep track of thepath from the 
+// current node to the root.
+
+
+/* 
+To traverse a binary tree without recursion,
+you can use an algorithm that relies on where it 
+came from to determine where it will go next.
+
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+    Node *parent;
+};
+
+void traverse2(Node* root) {
+    Node* current = root;
+    Node* prev = NULL;
+    Node* next = NULL;
+    while (current != NULL) {
+        if (prev == current->parent) { // came from parent
+            if (current->left != NULL)
+                next = current->left;
+            else if (current->right != NULL) 
+                next = current->right;
+            else 
+                next = current->parent;
+        } else if (prev == current->left) { // from left
+            if (current->right != NULL) 
+                next = current->right;
+            else 
+                next = current->parent;
+        } else {
+            next = current->parent;
+        }
+        prev = current;
+        current = next;
+    }
+}
+
+int size2(Node* root) {
+    Node* current = root;
+    Node* prev = NULL;
+    Node* next = NULL;
+    int n = 0;
+    while (current != NULL) {
+        if (prev == current->parent) { // came from parent
+            n++;
+            if (current->left != NULL)
+                next = current->left;
+            else if (current->right != NULL) 
+                next = current->right;
+            else 
+                next = current->parent;
+        } else if (prev == current->left) { // from left
+            if (current->right != NULL) 
+                next = current->right;
+            else 
+                next = current->parent;
+        } else {
+            next = current->parent;
+        }
+        prev = current;
+        current = next;
+    }
+    return n;
+} */
