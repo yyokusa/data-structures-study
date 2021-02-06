@@ -19,10 +19,10 @@ struct BSTree {
     void initialize() {
         root = NULL;
     }
-    // BSTNode<int>* find_node(int number);
     void add_node(int number);
     void print_tree(BSTNode<int>* node);
     int find(int num);
+    // BSTNode<int>* find_node(int number);
     // void add(int);
     // BSTNode* remove(int);
     // BSTNode* search(int);

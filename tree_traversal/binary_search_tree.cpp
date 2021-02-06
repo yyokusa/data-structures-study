@@ -1,10 +1,53 @@
 #include <iostream>
 #include "binary_search_tree.h"
 using namespace std;
-/* The data values in abinary search tree obey the binary search
+/* The data values in a binary search tree obey the binary search
 tree property: For a node,u, everydata value stored in the subtree
 rooted at u.left is less than u.x and every data value stored in
 the subtree rooted at u.right is greater than u.x. */
+
+void deleteLeftMostChildOfBST(BSTNode<int>* nptr) { // leftmost child is the node w/ smallest data
+    if (nptr == NULL) return;
+    BSTNode<int>* node = nptr;
+    BSTNode<int>* prev = nptr;
+    while(node->left != NULL) {
+        prev = node;
+        node = node->left;
+    }
+    // cout << prev->data << endl;
+    // cout << node->data << endl;
+    if (node->right != NULL) { // if it has right subtree, connect it as parent element's left subtree
+        prev->left = node->right;
+    }
+    delete node;
+}
+
+
+bool isBST(BSTNode<int>* nptr) {
+    BSTNode<int> *t;
+    if (nptr==NULL) return true;
+    if (isBST(nptr->left)){ 
+        t=nptr->left;
+        if (t!=NULL) {
+            while(t->right) 
+                t=t->right;
+            if (t->data>=nptr->data) return false; 
+        }
+    }
+    else return false;
+    if (isBST(nptr->right)) {
+        t=nptr->right;
+        if (t!=NULL) {
+            while(t->left) 
+                t=t->left;
+            if (t->data <= nptr->data) return false; 
+        }
+    } else return false;
+    return true;
+}
+
+
+
 
 void BSTree::add_node(int number) {
     if (root == NULL) {
@@ -152,29 +195,25 @@ void remove(Node*u) {
         delete w;
     }
 }
-
-
 */
 
+void construct_balanced_tree(int* arr, int low, int high, BSTree &t) {
+    if (low > high) return;
+    int index = (low + high) / 2;
+    int element = arr[index];
+    t.add_node(element);
+    construct_balanced_tree(arr, low, index - 1, t);
+    construct_balanced_tree(arr, index + 1, high, t);
+}
 int main() {
     BSTree t;
     t.initialize();
-    t.add_node(1);
-    t.add_node(5);
-    t.add_node(4);
-    t.add_node(6);
-    t.add_node(10);
-    t.add_node(7);
-    t.add_node(9);
-    t.add_node(3);
-    t.add_node(11);
-    t.add_node(12);
-    t.add_node(14);
-    t.add_node(13);
+    int arr[10] = {1,2,3,4,5,6,7,8,9,10};
+    construct_balanced_tree(arr, 0, 9, t);
     t.print_tree(t.root);
     cout << endl;
-    cout << t.find(8) << endl;
-    
+    // cout << isBST(t.root) << endl;
+    // deleteLeftMostChildOfBST(t.root);
     return 0;
 }
 
